@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Details</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    </head>
+    <body>
+        
+        <h1>Details</h1>
+        
+        <script>
+            function ajouter(personne) {
+                $('#details-personne').append('<li>' + personne.id + '</li>');
+                $('#details-personne').append('<li>' + personne.civilite + '</li>');
+                $('#details-personne').append('<li>' + personne.nom + '</li>');
+                $('#details-personne').append('<li>' + personne.prenom + '</li>');
+                $('#details-personne').append('<li>' + personne.mail + '</li>');
+                $('#details-personne').append('<li>' + personne.adresse + '</li>');
+            }
+            
+            $(document).ready(function () {
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        action: 'ConsulterDetailPersonne',
+                        id: window.location.search.substring(4)
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                $('#details-personne').empty();
+                    ajouter(data.details);
+                });
+            });
+        </script>
+        
+        <ul id="details-personne">
+        </ul>
+        
+        <a href="index.html">Retour à l'accueil</a>
+    </body>
+</html>

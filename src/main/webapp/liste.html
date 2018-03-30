@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Liste des Personnes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    </head>
+    <body>
+        
+        <h1>Liste des Personnes</h1>
+        
+        <script>
+            function ajouter(personne) {
+                $('#liste-personnes').append('<li>' + personne.civilite + ' ' + personne.prenom + ' ' + personne.nom + ' (' + personne.mail + ') <a href="detail.html?id=' + personne.id + '">detail</a></li>');
+            }
+            
+            $(document).ready(function () {
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        action: 'ConsulterListePersonnes'
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                $('#liste-personnes').empty();
+                    var personnes = data.personnes;
+                    for (var i = 0; i < personnes.length; i++) {
+                        ajouter(data.personnes[i]);
+                    }
+                });
+            });
+        </script>
+        
+        <ul id="liste-personnes">
+        </ul>
+        
+        <a href="index.html">Retour à l'accueil</a>
+    </body>
+</html>
